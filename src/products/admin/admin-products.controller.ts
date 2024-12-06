@@ -10,11 +10,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { UserRoles } from 'src/auth/roles/roles';
+import { Roles } from 'src/auth/roles/roles.decorator';
+import { RolesGuard } from 'src/auth/roles/roles.guard';
 import { AdminProductsService } from './admin-products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-@UseGuards(AuthGuard)
+@Roles(UserRoles.Admin)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('admin/products')
 export class AdminProductsController {
   constructor(private readonly productsService: AdminProductsService) {}
